@@ -69,7 +69,6 @@ function getDayKey(date) {
 function getLast365Days() {
   const days = [];
   const now = new Date();
-  // กำหนดให้เป็นเวลา 00:00:00 ของวันนี้ในเวลาท้องถิ่นเพื่อให้การคำนวณข้ามวันแม่นยำ
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   
   for (let i = 364; i >= 0; i--) { 
@@ -464,7 +463,8 @@ function HabitTracker() {
               const color = heatmapHabit.color || "#4ECDC4";
               const streak = getStreak(heatmapHabit.id);
               const total = getTotal(heatmapHabit.id);
-              const eligible = Math.max(1, allDays.filter(d=>d>=heatmapHabit.createdAt).length);
+              // แก้ไขส่วนนี้: คำนวณวันที่มีสิทธิ์ (Eligible Days) โดยนับตั้งแต่วันที่สร้างนิสัยนี้
+              const eligible = Math.max(1, allDays.filter(d => d >= heatmapHabit.createdAt && d <= todayKey).length);
               return (
                 <div>
                   <div style={{ display:"flex",gap:10,marginBottom:24 }}>
